@@ -8,7 +8,7 @@
 ###                                                                         |___/  
 ###
 ###  Sample Usage: `. /path/to/.quote-of-the-day && quote-of-the-day`
-###
+###  Requires: curl, jq, cowsay
 ###################################################################################
 
 function quote-of-the-day() {
@@ -16,11 +16,9 @@ function quote-of-the-day() {
 	OUTPUT="/tmp/.quote_of_the_day"
 
 	if [ ! -f $OUTPUT ]; then
-		curl -s $INPUT > $OUTPUT	
+		curl -s $INPUT | jq -r '.contents.quotes[0].quote' > $OUTPUT	
 	fi
 
-	cat $OUTPUT | jq -r '.contents.quotes[0].quote'
-	
 	cd $WORK_DIR
 	clear
 	cat $OUTPUT | cowsay
