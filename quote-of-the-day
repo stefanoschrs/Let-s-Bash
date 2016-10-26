@@ -1,0 +1,29 @@
+###   ____              _                __   _   _            _____              
+###  / __ \            | |              / _| | | | |          |  __ \             
+### | |  | |_   _  ___ | |_ ___    ___ | |_  | |_| |__   ___  | |  | | __ _ _   _ 
+### | |  | | | | |/ _ \| __/ _ \  / _ \|  _| | __| '_ \ / _ \ | |  | |/ _` | | | |
+### | |__| | |_| | (_) | ||  __/ | (_) | |   | |_| | | |  __/ | |__| | (_| | |_| |
+###  \___\_\\__,_|\___/ \__\___|  \___/|_|    \__|_| |_|\___| |_____/ \__,_|\__, |
+###                                                                          __/ |
+###                                                                         |___/  
+###
+###  Sample Usage: `. /path/to/.quote-of-the-day && quote-of-the-day`
+###
+###################################################################################
+
+function quote-of-the-day() {
+	INPUT="http://quotes.rest/qod.json?category=inspire"
+	OUTPUT="/tmp/.quote_of_the_day"
+
+	if [ ! -f $OUTPUT ]; then
+		curl -s $INPUT > $OUTPUT	
+	fi
+
+	cat $OUTPUT | jq -r '.contents.quotes[0].quote'
+	
+	cd $WORK_DIR
+	clear
+	cat $OUTPUT | cowsay
+	ls -alF
+
+}
